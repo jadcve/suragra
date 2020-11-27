@@ -7,7 +7,7 @@
         <div class="ibox float-e-margins">
             <div class="card card-default">
                 <div class="card-header">
-                    <h3 class="card-title">Nuevo cliente</h3>
+                    <h3 class="card-title">Nuevo Cliente</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                         <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
@@ -15,8 +15,8 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4">
-                            {!! Form::open(['route'=> 'clientes.store', 'method'=>'POST']) !!}
+                        <div class="col-md-6">
+                            {!! Form::open(['route'=> 'cliente.store', 'method'=>'POST']) !!}
                             <div class="form-group" >
                                 <label for="user_rut" >Rut <strong>*</strong></label>
                                 {!! Form::text('user_rut', null, ['placeholder'=>'Rut del cliente', 'class'=>'form-control col-sm-9 rut', 'required']) !!}
@@ -38,7 +38,12 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="user_cargo" >Cargo <strong>*</strong></label>
+                                {!! Form::text('user_cargo', null, ['placeholder'=>'Cargo', 'class'=>'form-control col-sm-9', 'required']) !!}
+                            </div>
+
                             <div class="form-group">
                                 <label for="user_email" >Email <strong>*</strong></label>
                                 {!! Form::text('user_email', old('email'), ['class'=>'form-control col-sm-9', 'placeholder'=>'Email', 'required']) !!}
@@ -46,19 +51,7 @@
 
                             <div class="form-group">
                                 <label for="empresa_id" >Empresa <strong>*</strong></label>
-                                {!! Form::select('empresa_id', $empresa, null,['placeholder'=>'Seleccionar Empresa', 'class'=>'form-control col-sm-9', 'required'=>'required']) !!}
-                            </div>
-
-                            <div class="form-group">
-                                <label for="user_cargo" >Cargo  <strong>*</strong></label>
-                                {!! Form::text('user_cargo', null, ['placeholder'=>'Cargo del cliente', 'class'=>'form-control col-sm-9', 'required']) !!}
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="rol_id" >Rol <strong>*</strong></label>
-                                {!! Form::select('rol_id', $roles, null,['placeholder'=>'Seleccionar Rol', 'class'=>'form-control col-sm-9', 'required'=>'required']) !!}
+                                {!! Form::select('empresa_id', $empresas, null,['placeholder'=>'Seleccionar Empresa', 'class'=>'form-control col-sm-9', 'required'=>'required']) !!}
                             </div>
                         </div>
                     </div>
@@ -81,7 +74,7 @@
         <div class="ibox float-e-margins">
             <div class="card card-default">
                 <div class="card-header">
-                    <h3 class="card-title">Listado de empresas</h3>
+                    <h3 class="card-title">Listado de Clientes</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                         <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
@@ -89,34 +82,32 @@
                 </div>
                 <div class="card-body">
                 <!--   <div class="col-lg-12 pb-3 pt-2">
-                            <a href="{{ route('clientes.create') }}" class = 'btn btn-primary'>Crear nuevo cliente</a>
+                            <a href="{{ route('cliente.create') }}" class = 'btn btn-primary'>Crear nuevo cliente</a>
                         </div>
                 -->
                     <div class="table-responsive">
                         <table class="table table-hover" id="dataTableAusentismo" width="100%" cellspacing="0">
                             <thead>
                             <tr>
-                                <th>Nombres</th>
-                                <th>Correo</th>
-                                <th>Rol</th>
+                                <th>Nombre y Apellido</th>
+                                <th>E-mail</th>
                                 <th>Empresa</th>
                                 <th>Acci&oacute;n</th>
                                 <!-- <th>Desactivar</th>  -->
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($clientes as $us)
+                            @foreach($clientes_index as $us)
                                 <tr>
                                     <td><small>{{ $us->user_nombre . ' ' . $us->user_apellido }}</small></td>
                                     <td><small>{{ $us->email }}</small></td>
-                                    <td><small>{{ $us->oneRol->rol_desc }}</small></td>
-                                    <td><small>{{ $us->belongsToEmpresa->empresa_razon_social }}</small></td>
+                                    <td><small>{{ $us->belongsToEmpresa->empresa_nombre }}</small></td>
                                     <td>
                                         <small>
-                                            <a href="{{ route('clientes.edit',  Crypt::encrypt($us->user_id)) }}" class="btn-empresa"><i class="far fa-edit"></i></a>
+                                            <a href="{{ route('cliente.edit',  Crypt::encrypt($us->user_id)) }}" class="btn-empresa"><i class="far fa-edit"></i></a>
                                         </small>
                                         <small>
-                                            <a href = "{{ route('clientes.destroy', Crypt::encrypt($us->user_id))  }}" onclick="return confirm('¿Esta seguro que desea eliminar este elemento?')" class="btn-empresa"><i class="far fa-trash-alt"></i>
+                                            <a href = "{{ route('cliente.destroy', Crypt::encrypt($us->user_id))  }}" onclick="return confirm('¿Esta seguro que desea eliminar este elemento?')" class="btn-empresa"><i class="far fa-trash-alt"></i>
                                             </a>
                                         </small>
                                     </td>
