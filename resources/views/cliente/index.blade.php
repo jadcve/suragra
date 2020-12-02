@@ -91,6 +91,7 @@
                             <tr>
                                 <th>Nombre y Apellido</th>
                                 <th>E-mail</th>
+                                <th>Teléfono</th>
                                 <th>Empresa</th>
                                 <th>Acci&oacute;n</th>
                                 <!-- <th>Desactivar</th>  -->
@@ -101,6 +102,7 @@
                                 <tr>
                                     <td><small>{{ $us->user_nombre . ' ' . $us->user_apellido }}</small></td>
                                     <td><small>{{ $us->email }}</small></td>
+                                    <td><small>{{ $us->user_telefono }}</small></td>
                                     <td><small>{{ $us->belongsToEmpresa->empresa_nombre }}</small></td>
                                     <td>
                                         <small>

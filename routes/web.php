@@ -3,32 +3,16 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-/*
-Route::get('/', function () {
-    return view('welcome');
-});
-*/
 
 Auth::routes(['register' => false]);
 
-
+Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/', 'Auth\LoginController@showLoginForm')->name('/');
     Route::any('login', 'Auth\LoginController@login');
 });
 
-/***cliente logueados****/
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -36,13 +20,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('home', 'HomeController@index')->name('home');
     Route::get('homeDashboard', 'HomeController@dashboard')->name('home.dashboard');
 
-
-
-});
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-//Route::group(['middleware' => ['CheckRol:Administrador']], function () {
+    //Empresas
     Route::get('empresa', 'EmpresaController@index')->name('empresa.index');
     Route::get('empresa/create','EmpresaController@create')->name('empresa.create');
     Route::get('empresa/{id}/edit','EmpresaController@edit')->name('empresa.edit');
@@ -50,6 +28,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::patch('empresa/{id}/update','EmpresaController@update')->name('empresa.update');
     Route::get('empresa/{id}/delete','EmpresaController@destroy')->name('empresa.destroy');
 
+    //Clientes
     Route::get('cliente', 'ClienteController@index')->name('cliente.index');
     Route::get('cliente/create','ClienteController@create')->name('cliente.create');
     Route::get('cliente/{id}/edit','ClienteController@edit')->name('cliente.edit');
@@ -57,4 +36,12 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::patch('cliente/{id}/update','ClienteController@update')->name('cliente.update');
     Route::get('cliente/{id}/delete','ClienteController@destroy')->name('cliente.destroy');
 
-//});
+    //Alarmas
+    Route::get('alarma', 'AlarmaController@index')->name('alarma.index');
+    Route::get('alarma/create','AlarmaController@create')->name('alarma.create');
+    Route::get('alarma/{id}/edit','AlarmaController@edit')->name('alarma.edit');
+    Route::post('alarma','AlarmaController@store')->name('alarma.store');
+    Route::patch('alarma/{id}/update','AlarmaController@update')->name('alarma.update');
+    Route::get('alarma/{id}/delete','AlarmaController@destroy')->name('alarma.destroy');
+
+});

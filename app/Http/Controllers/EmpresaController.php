@@ -13,10 +13,7 @@ use DB;
 class EmpresaController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+
 
     /**
      * Display a listing of the resource.
@@ -49,13 +46,10 @@ class EmpresaController extends Controller
      */
     public function store(Request $request)
     {
-        $validate = DB::table('empresas')
-            ->where('empresa_rut', $request->empresa_rut)
-            ->where('deleted_at', '=', null)
-            ->exists();
+       $validate = $this->validateEmpresa($request);
 
         if($validate == true){
-            flash('El rut '.$request->empresa_rut.'  ya existe en la base de datos')->warning();
+            flash('El nombre '.$request->empresa_nombre.'  ya existe en la base de datos')->warning();
             return redirect('/empresa');
         }else
 
@@ -159,5 +153,13 @@ class EmpresaController extends Controller
             //flash($e->getMessage())->error();
             return redirect('empresa');
         }
+    }
+
+    public function validateEmpresa($empresa)
+    {
+        return  DB::table('empresas')
+                    ->where('empresa_nombre', $empresa->empresa_nombre)
+                    ->where('deleted_at', '=', null)
+                    ->exists();
     }
 }

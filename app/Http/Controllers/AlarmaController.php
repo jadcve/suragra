@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Alarma;
 use Illuminate\Http\Request;
 
 class AlarmaController extends Controller
@@ -13,7 +14,8 @@ class AlarmaController extends Controller
      */
     public function index()
     {
-        //
+        $alarmas = Alarma::all();
+        return view('alarma.index', compact('alarmas'));
     }
 
     /**
