@@ -1,8 +1,11 @@
 @extends('adminlte::page')
-@extends('layouts.app')
 @section('title','Alarmas index')
 @section('content')
 @include('flash::message')
+
+@section('js')
+<script src="{{ asset('/vendor/ckeditor/ckeditor.js') }}"></script>
+@stop
 
     <div class="col-lg-12">
         <div class="ibox float-e-margins">
@@ -22,43 +25,37 @@
                                 <label for="alarma_titulo" >Título <strong>*</strong></label>
                                 {!! Form::text('alarma_titulo', null, ['placeholder'=>'Titulo de la Alarma', 'class'=>'form-control col-sm-9 rut', 'required']) !!}
                             </div>
-
                             <div class="form-group mt-3">
                                 <label for="alarma_subject" >Subject <strong>*</strong></label>
                                 {!! Form::text('alarma_subject', null, ['placeholder'=>'Subject', 'class'=>'form-control col-sm-9', 'required']) !!}
                             </div>
-
                             <div class="form-group">
                                 <label for="alarma_periodicidad" >Periodicidad  <strong>*</strong></label>
-                                {!! Form::text('alarma_periodicidad', null, ['placeholder'=>'Periodicidad', 'class'=>'form-control col-sm-9', 'required']) !!}
+                                {!! Form::select('empresa_id', $periodicidad, null,['placeholder'=>'Periodicidad', 'class'=>'form-control col-sm-9', 'required'=>'required']) !!}
                             </div>
-
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="alarma_clientes" >Clientes <strong>*</strong></label>
-                                {!! Form::text('alarma_clientes', null, ['placeholder'=>'clientes', 'class'=>'form-control col-sm-9', 'required']) !!}
+
+                                <select class="form-control" multiple="multiple">
+
+                                    @foreach($clientes as $client)
+                                        <option value="{{ $client->user_id }}">{{ $client->user_nombre .' '. $client->user_apellido}}</option>
+                                    @endforeach
+                                  </select>
                             </div>
                         </div>
-
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="alarma_Contenido" >Correo <strong>*</strong></label>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <textarea class="ckeditor" name="editor1" id="editor1" rows="10" cols="120">
-                                    Este es el textarea que es modificado por la clase ckeditor
-                                </textarea>
+                                <textarea class="ckeditor" name="editor1" id="editor1" rows="10" cols="120"></textarea>
                             </div>
                         </div>
                     </div>
 
                     <div class="text-right pb-5">
-                        {!! Form::submit('Registrar cliente', ['class' => 'btn btn-primary block full-width m-b']) !!}
+                        {!! Form::submit('Registrar alarma', ['class' => 'btn btn-primary block full-width m-b']) !!}
                         {!! Form::close() !!}
                     </div>
 
@@ -87,7 +84,7 @@
                         </div>
                 -->
                     <div class="table-responsive">
-                        <table class="table table-hover" id="dataTableAusentismo" width="100%" cellspacing="0">
+                        <table class="table table-hover" id="alarmaTable" width="100%" cellspacing="0">
                             <thead>
                             <tr>
                                 <th>Nombre y Apellido</th>
@@ -127,42 +124,16 @@
 
 @section('local-scripts')
 
+<script type="text/javascript">
+    $(".js-example-tokenizer").select2({
+    tags: true,
+    tokenSeparators: [',', ' ']
+});
+    </script>
 
-    <script>
-        $(function(){
-
-            $('.rut').keyup(function(){
-
-                $("#validador").html('<span style="color:red;" aria-hidden="true">&times;</span>');
-
-
-                var Ts = $(this).val().split("-");
-                var T = Ts[0];
-
-
-                var M=0,S=1;
-                for(;T;T=Math.floor(T/10))
-                    S=(S+T%10*(9-M++%6))%11;
-                //return S?S-1:'k';
-
-                if(Ts[0].length==7 || Ts[0].length==8){
-
-                   if(Ts.length ==2){
-                       if(S-1==Ts[1]){
-                           $("#validador").html('<i style="color:green"  class="fa fa-check"></i>');
-                       }
-                   }
-
-                }
-
-
-
-
-
-
-            });
-
-        });
-
-        </script>
+    <script type="text/javascript">
+        $(document).ready( function () {
+        $('#alarmaTable').DataTable();
+    });
+    </script>
 @endsection

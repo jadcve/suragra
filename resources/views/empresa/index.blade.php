@@ -3,6 +3,7 @@
 @section('content')
 @include('flash::message')
 
+
 <div class="col-lg-12">
     <div class="ibox float-e-margins">
         <div class="card card-default">
@@ -72,7 +73,7 @@
                     </div>
             -->
                 <div class="table-responsive">
-                    <table class="table table-hover" id="dataTableAusentismo" width="100%" cellspacing="0">
+                    <table class="table table-hover" id="empresaTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>Empresa</th>
@@ -112,4 +113,12 @@
 </div>
 
 @stop
+
+@section('local-scripts')
+    <script type="text/javascript">
+        $(document).ready( function () {
+        $('#empresaTable').DataTable();
+    })
+    </script>
+@endsection
 

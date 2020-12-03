@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alarma;
+use App\User;
 use Illuminate\Http\Request;
+use DB;
 
 class AlarmaController extends Controller
 {
@@ -15,7 +17,20 @@ class AlarmaController extends Controller
     public function index()
     {
         $alarmas = Alarma::all();
-        return view('alarma.index', compact('alarmas'));
+
+        /*$clientes = DB::table('users')
+            ->select('user_id', 'user_nombre')
+            ->where('deleted_at', null)
+            ->where('user_id', '!=' ,1)
+            ->pluck('user_nombre', 'user_id');
+        */
+        $clientes = User::all();
+        //dd($clientes);
+        $periodicidad = DB::table('periodicidad')
+            ->select('periodicidad_id', 'periodicidad_tipo')
+            ->pluck('periodicidad_tipo', 'periodicidad_id');
+
+        return view('alarma.index', compact('alarmas', 'clientes', 'periodicidad'));
     }
 
     /**
