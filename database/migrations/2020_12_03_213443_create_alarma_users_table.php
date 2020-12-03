@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAlarmaClientesTable extends Migration
+class CreateAlarmaUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class CreateAlarmaClientesTable extends Migration
      */
     public function up()
     {
-        Schema::create('alarma_clientes', function (Blueprint $table) {
-            $table->id('alarma_cliente_id');
+        Schema::create('alarma_users', function (Blueprint $table) {
+            $table->id('alarma_user_id');
             $table->unsignedBigInteger('alarma_id');
             $table->foreign('alarma_id')->references('alarma_id')->on('alarmas')->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
@@ -30,6 +30,6 @@ class CreateAlarmaClientesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('alarma_clientes');
+        Schema::dropIfExists('alarma_users');
     }
 }

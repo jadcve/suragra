@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePeriodicidadTable extends Migration
+class CreatePeriodicidadsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreatePeriodicidadTable extends Migration
      */
     public function up()
     {
-        Schema::create('periodicidad', function (Blueprint $table) {
+        Schema::create('periodicidads', function (Blueprint $table) {
             $table->id('periodicidad_id');
             $table->string('periodicidad_tipo');
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreatePeriodicidadTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('periodicidad');
+        Schema::dropIfExists('periodicidads');
     }
 }

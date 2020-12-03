@@ -36,6 +36,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="alarma_periodicidad" >Periodicidad  <strong>*</strong></label>
+                                {!! Form::select('empresa_id', $empresas, $usuario->belongsToEmpresa->empresa_id,['placeholder'=>'Seleccionar Empresa', 'class'=>'form-control col-sm-9', 'required'=>'required']) !!}
                                 {!! Form::select('alarma_periodicidad', $periodicidad, null,['placeholder'=>'Periodicidad', 'class'=>'form-control col-sm-9', 'required'=>'required']) !!}
                             </div>
                         </div>
@@ -102,7 +103,7 @@
                             @foreach($alarmas as $alarma)
                                 <tr>
                                     <td><small>{{ $alarma->alarma_nombre  }}</small></td>
-                                    <td><small>{{ $alarma->periodicidad->periodicidad_tipo }}</small></td>
+                                    <td><small>{{ $alarma->alarma_periodicidad }}</small></td>
                                     <td>
                                         <small>
                                             <a href="{{ route('alarma.edit',  Crypt::encrypt($alarma->alarma_id)) }}" class="btn-empresa"><i class="far fa-edit"></i></a>

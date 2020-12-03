@@ -14,4 +14,13 @@ class Alarma extends Model
     protected $fillable = [
         'alarma_nombre','alarma_subject','alarma_contenido',
     ];
+
+    public function periodicidad()
+    {
+        return $this->hasOne(Periodicidad::class, 'periodicidad_id', 'periodicidad_id');
+    }
+
+    public function clientes() {
+        return $this->belongsToMany('App\User');
+    }
 }

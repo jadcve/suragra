@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AlarmaUser;
 use App\Models\Alarma;
 use App\User;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Crypt;
 
 class AlarmaController extends Controller
 {
@@ -16,17 +18,9 @@ class AlarmaController extends Controller
      */
     public function index()
     {
-        $alarmas = Alarma::all();
-
-        /*$clientes = DB::table('users')
-            ->select('user_id', 'user_nombre')
-            ->where('deleted_at', null)
-            ->where('user_id', '!=' ,1)
-            ->pluck('user_nombre', 'user_id');
-        */
+        $alarmas = Alarma::with('periodicidad')->get();
         $clientes = User::all();
-        //dd($clientes);
-        $periodicidad = DB::table('periodicidad')
+        $periodicidad = DB::table('periodicidads')
             ->select('periodicidad_id', 'periodicidad_tipo')
             ->pluck('periodicidad_tipo', 'periodicidad_id');
 
@@ -51,7 +45,34 @@ class AlarmaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        try {
+
+            $alarma = new Alarma();
+            $alarma->alarma_subject = $request->alarma_subject;
+            $alarma->alarma_nombre = $request->alarma_titulo;
+            $alarma->alarma_contenido = $request->alarma_contenido;
+            $alarma->periodicidad_id = $request->alarma_periodicidad;
+            $alarma->save();
+
+            foreach($request->clientes as $clientes)
+            {
+                $alarmaClientes = new AlarmaUser();
+                $alarmaClientes->alarma_id =  $alarma->alarma_id;
+                $alarmaClientes->user_id = $clientes;
+                $alarmaClientes->save();
+            }
+
+
+            flash('La alarma se creo correctamente.')->success();
+            return redirect('alarma');
+
+        }catch (\Exception $e) {
+
+            flash('Error al crear la alarma.')->error();
+            //flash($e->getMessage())->error();
+            return redirect('alarma');
+        }
     }
 
     /**
@@ -62,7 +83,7 @@ class AlarmaController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -73,7 +94,10 @@ class AlarmaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $id =  Crypt::decrypt($id);
+
+        $alarma = Alarma::with('periodicidad')->get();
+        dd($alarma);
     }
 
     /**
@@ -96,6 +120,19 @@ class AlarmaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $alarma_id =  Crypt::decrypt($id);
+
+        try {
+            $alarma = Alarma::findOrfail($alarma_id)->delete();
+
+            flash('La alarma ha sido eliminados satisfactoriamente.')->success();
+            return redirect('alarma');
+        }catch (\Exception $e) {
+
+
+            flash('Error al intentar eliminar la alarma.')->error();
+            //flash($e->getMessage())->error();
+            return redirect('alarma');
+        }
     }
 }

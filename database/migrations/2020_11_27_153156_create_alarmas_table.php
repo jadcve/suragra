@@ -19,7 +19,7 @@ class CreateAlarmasTable extends Migration
             $table->string('alarma_subject');
             $table->longText('alarma_contenido');
             $table->unsignedBigInteger('periodicidad_id');
-            $table->foreign('periodicidad_id')->references('periodicidad_id')->on('periodicidad')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('periodicidad_id')->references('periodicidad_id')->on('periodicidads')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
