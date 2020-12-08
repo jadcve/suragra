@@ -3,13 +3,12 @@
 @section('content')
 @include('flash::message')
 
-@section('js')
-<script src="{{ asset('/vendor/ckeditor/ckeditor.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-@stop
 
 @section('css')
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
+
 @stop
 
     <div class="col-lg-12">
@@ -44,7 +43,7 @@
                             <div class="form-group">
                                 <label for="alarma_clientes" >Clientes <strong>*</strong></label>
 
-                                <select class="form-control" multiple="multiple" name="clientes[]" id="clientes[]">
+                                <select class="js-example-basic-multiple js-states form-control" multiple="multiple" name="clientes[]" id="clientes">
 
                                     @foreach($clientes as $client)
                                         <option value="{{ $client->user_id }}">{{ $client->user_nombre .' '. $client->user_apellido}}</option>
@@ -52,11 +51,14 @@
                                   </select>
                             </div>
                         </div>
+
+                        </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <textarea class="ckeditor" name="alarma_contenido" id="alarma_contenido" rows="10" cols="120"></textarea>
                             </div>
                         </div>
+
                     </div>
 
                     <div class="text-right pb-5">
@@ -95,7 +97,6 @@
                                 <th>Nombre</th>
                                 <th>Periodicidad</th>
                                 <th>Acci&oacute;n</th>
-                                <!-- <th>Desactivar</th>  -->
                             </tr>
                             </thead>
                             <tbody>
@@ -105,7 +106,7 @@
                                     <td><small>{{ $alarma->periodicidad->periodicidad_tipo }}</small></td>
                                     <td>
                                         <small>
-                                            <a href="{{ route('alarma.edit',  Crypt::encrypt($alarma->alarma_id)) }}" class="btn-empresa"><i class="far fa-edit"></i></a>
+                                            <a href="{{ route('alarma.edit',  Crypt::encrypt($alarma->alarma_id)) }}" class="btn-empresa enviarAlarma"><i class="far fa-edit"></i></a>
                                         </small>
                                         <small>
                                             <a href = "{{ route('alarma.destroy', Crypt::encrypt($alarma->alarma_id))  }}" onclick="return confirm('¿Esta seguro que desea eliminar este elemento?')" class="btn-empresa"><i class="far fa-trash-alt"></i>
@@ -113,7 +114,6 @@
                                         </small>
                                     </td>
                                 </tr>
-
                             @endforeach
                             </tbody>
                         </table>
@@ -124,17 +124,20 @@
     </div>
 @endsection
 
-@section('local-scripts')
+
+@section('js')
+
+<script src="{{ asset('/vendor/ckeditor/ckeditor.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+
 
 <script type="text/javascript">
     $(document).ready(function() {
-    $('#clientes').select2();
-});
-    </script>
-
-    <script type="text/javascript">
-        $(document).ready( function () {
-        $('#alarmaTable').DataTable();
+        $('.js-example-basic-multiple').select2({
+        placeholder: 'Seleccione las opciones'})
     });
-    </script>
-@endsection
+</script>
+
+@stop
+

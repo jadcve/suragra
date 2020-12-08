@@ -52,4 +52,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('cuenta/{id}/update','CuentaController@update')->name('cuenta.update');
     Route::get('cuenta/{id}/delete','CuentaController@destroy')->name('cuenta.destroy');
 
+    Route::get('notificacion', 'AlarmaController@sendmail')->name('notificacion');
+
 });
