@@ -23,5 +23,17 @@ class UsuarioSeeder extends Seeder
             'empresa_id'    =>  '1',
             'estado_id'     =>  '1',
         ]);
+
+        User::create([
+            'user_nombre'   =>  'Dahiana',
+            'user_apellido' =>  'Grandon',
+            'user_rut'      =>  '26506613-5',
+            'user_cargo'    =>  'Gestión de control y comercialización',
+            'email'         =>  'dahiana@suragra.com',
+            'password'      =>  bcrypt('123456789'),
+            'rol_id'        =>  '1',
+            'empresa_id'    =>  '1',
+            'estado_id'     =>  '1',
+        ]);
     }
 }

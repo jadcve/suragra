@@ -9,8 +9,9 @@ use App\User;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Crypt;
-use App\Mail\AlarmaIva;
+use App\Mail\CreacionAlarma;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Cuenta;
 
 class AlarmaController extends Controller
 {
@@ -128,7 +129,7 @@ class AlarmaController extends Controller
     public function update(Request $request, $id)
     {
         $alarma_id =  Crypt::decrypt($id);
-//dd($request);
+
 
         try {
             $alarma = Alarma::findOrfail($alarma_id);
@@ -195,13 +196,35 @@ class AlarmaController extends Controller
         ];
 
 
-        Mail::to($email)->send(new AlarmaIva($data));
+        Mail::to($email)->send(new CreacionAlarma($data));
         return response()
                     ->json([
                         'mensaje' => 'Su correo fue enviado exitosamente',
                         'status'  => 'OK'
                     ]);
     }
+
+    public function alarmaIva()
+    {
+        $alarma = Alarma::select()
+        ->join('alarma_users','alarma_users.alarma_id','alarmas.alarma_id')
+        ->join('users','users.user_id','alarma_users.user_id')
+        ->where('alarmas.alarma_id',23)
+        ->get();
+
+        $cuentas = Cuenta::all();
+
+        foreach($alarma as $al)
+        {
+
+        }
+
+        Mail::to($email)->send(new alarmaIva($data));
+
+
+    }
+
+
 
 
 }
