@@ -43,8 +43,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('alarma','AlarmaController@store')->name('alarma.store');
     Route::patch('alarma/{id}/update','AlarmaController@update')->name('alarma.update');
     Route::get('alarma/{id}/delete','AlarmaController@destroy')->name('alarma.destroy');
+    Route::get('notificacion', 'AlarmaController@sendmail')->name('notificacion');
 
-    //Alarmas
+
+    //Cuentas
     Route::get('cuenta', 'CuentaController@index')->name('cuenta.index');
     Route::get('cuenta/create','CuentaController@create')->name('cuenta.create');
     Route::get('cuenta/{id}/edit','CuentaController@edit')->name('cuenta.edit');
@@ -52,6 +54,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('cuenta/{id}/update','CuentaController@update')->name('cuenta.update');
     Route::get('cuenta/{id}/delete','CuentaController@destroy')->name('cuenta.destroy');
 
-    Route::get('notificacion', 'AlarmaController@sendmail')->name('notificacion');
+
 
 });

@@ -32,7 +32,7 @@ class CreacionAlarma extends Mailable
         $address = 'info@suragra.com';
         $name = 'Alarmas';
 
-        Log::debug($this->data);
+
         return $this->subject($this->data['subject'])
             ->from($address, $name)
             ->view('mails.test')

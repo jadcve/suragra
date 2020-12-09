@@ -6,6 +6,8 @@ use App\User;
 Use App\Models\Alarma;
 use App\Models\Cuenta;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AlarmaIva;
 
 class SendAlarmaIva extends Command
 {
@@ -48,6 +50,19 @@ class SendAlarmaIva extends Command
 
         $cuentas = Cuenta::all();
 
-        return 0;
+
+        foreach($alarma as $al)
+        {
+
+            $data = [
+                'alarmaNombre'      => $al->alarma_nombre,
+                'alarmaSubject'     => $al->alarma_subject,
+                'alarmaContenido'   => $al->alarma_contenido,
+                'cuentas'           => $cuentas
+            ];
+
+            Mail::to($al->email)->send(new alarmaIva($data));
+
+        }
     }
 }

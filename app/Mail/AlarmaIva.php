@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Cuenta;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -29,17 +30,17 @@ class AlarmaIva extends Mailable
      */
     public function build()
     {
+
+
         $address = 'info@suragra.com';
         $name = 'Alarmas';
 
-        Log::debug($this->data);
-        return $this->subject($this->data['subject'])
+        return $this->subject($this->data['alarmaSubject'])
             ->from($address, $name)
-            ->view('mails.test')
+            ->view('mails.alarmaIva')
             ->with([
-                'test_message'  => $this->data['message'],
-                'test_id'       => $this->data['alarmaId'],
-                'test_titulo'   => $this->data['nombreAlarma'],
+                'alarmaIva_message'  => $this->data['alarmaContenido'],
+                'cuentas'            => $this->data['cuentas']
              ]);
     }
 }

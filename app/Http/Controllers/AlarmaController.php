@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Crypt;
 use App\Mail\CreacionAlarma;
+use App\Mail\AlarmaIva;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Cuenta;
 
@@ -203,28 +204,6 @@ class AlarmaController extends Controller
                         'status'  => 'OK'
                     ]);
     }
-
-    public function alarmaIva()
-    {
-        $alarma = Alarma::select()
-        ->join('alarma_users','alarma_users.alarma_id','alarmas.alarma_id')
-        ->join('users','users.user_id','alarma_users.user_id')
-        ->where('alarmas.alarma_id',23)
-        ->get();
-
-        $cuentas = Cuenta::all();
-
-        foreach($alarma as $al)
-        {
-
-        }
-
-        Mail::to($email)->send(new alarmaIva($data));
-
-
-    }
-
-
 
 
 }
