@@ -45,6 +45,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('alarma/{id}/delete','AlarmaController@destroy')->name('alarma.destroy');
     Route::get('notificacion', 'AlarmaController@sendmail')->name('notificacion');
 
+    Route::get('test', 'AlarmaController@pruebaJoin');
+
+
 
     //Cuentas
     Route::get('cuenta', 'CuentaController@index')->name('cuenta.index');

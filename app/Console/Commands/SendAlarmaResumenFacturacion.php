@@ -2,28 +2,27 @@
 
 namespace App\Console\Commands;
 
-use App\User;
-Use App\Models\Alarma;
+use App\Mail\AlarmaFacturacion;
+use App\Models\Alarma;
 use App\Models\Cuenta;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\AlarmaIva;
 
-class SendAlarmaIva extends Command
+class SendAlarmaResumenFacturacion extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'alarma:iva';
+    protected $signature = 'alarma:facturacion';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Alarma de notificacion de cobro de IVA';
+    protected $description = 'Command description';
 
     /**
      * Create a new command instance.
@@ -46,7 +45,7 @@ class SendAlarmaIva extends Command
             ->join('alarma_users','alarma_users.alarma_id','alarmas.alarma_id')
             ->join('users','users.user_id','alarma_users.user_id')
             ->join('empresas','empresas.empresa_id','users.empresa_id')
-            ->where('alarmas.alarma_id',1)
+            ->where('alarmas.alarma_id',3)
             ->get();
 
         $cuentas = Cuenta::all();
@@ -63,7 +62,7 @@ class SendAlarmaIva extends Command
                 'alarmaEmpresa'     => $al->empresa_nombre
             ];
 
-            Mail::to($al->email)->send(new alarmaIva($data));
+            Mail::to($al->email)->send(new alarmaFacturacion($data));
 
         }
     }

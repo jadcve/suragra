@@ -205,5 +205,17 @@ class AlarmaController extends Controller
                     ]);
     }
 
+    public function pruebaJoin()
+    {
+        $alarma = Alarma::select()
+            ->join('alarma_users','alarma_users.alarma_id','alarmas.alarma_id')
+            ->join('users','users.user_id','alarma_users.user_id')
+            ->join('empresas','empresas.empresa_id','users.empresa_id')
+            ->where('alarmas.alarma_id',1)
+            ->get();
+
+        dd($alarma);
+    }
+
 
 }

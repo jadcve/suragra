@@ -15,8 +15,10 @@ class CreateAlarmaUsersTable extends Migration
     {
         Schema::create('alarma_users', function (Blueprint $table) {
             $table->id('alarma_user_id');
+
             $table->unsignedBigInteger('alarma_id');
             $table->foreign('alarma_id')->references('alarma_id')->on('alarmas')->onUpdate('cascade')->onDelete('cascade');
+
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('user_id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();

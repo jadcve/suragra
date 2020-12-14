@@ -2,14 +2,12 @@
 
 namespace App\Mail;
 
-use App\Models\Cuenta;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 
-class AlarmaIva extends Mailable
+class AlarmaNeto extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -30,18 +28,16 @@ class AlarmaIva extends Mailable
      */
     public function build()
     {
-
-
         $address = 'info@suragra.com';
         $name = 'Alarmas';
 
         return $this->subject($this->data['alarmaSubject'])
             ->from($address, $name)
-            ->view('mails.alarmaIva')
+            ->view('mails.alarmaNeto')
             ->with([
                 'alarmaIva_empresa'  => $this->data['alarmaEmpresa'],
                 'alarmaIva_message'  => $this->data['alarmaContenido'],
                 'cuentas'            => $this->data['cuentas']
-             ]);
+            ]);
     }
 }

@@ -2,14 +2,12 @@
 
 namespace App\Mail;
 
-use App\Models\Cuenta;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 
-class AlarmaIva extends Mailable
+class AlarmaFacturacion extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -42,6 +40,6 @@ class AlarmaIva extends Mailable
                 'alarmaIva_empresa'  => $this->data['alarmaEmpresa'],
                 'alarmaIva_message'  => $this->data['alarmaContenido'],
                 'cuentas'            => $this->data['cuentas']
-             ]);
+            ]);
     }
 }

@@ -12,4 +12,6 @@ class AlarmaUser extends Model
     protected $fillable = [
         'alarma_id','user_id',
     ];
+
+   
 }

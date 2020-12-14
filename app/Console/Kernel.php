@@ -14,6 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         'App\Console\Commands\SendAlarmaIva',
+        'App\Console\Commands\SendAlarmaResumenNeto',
+        'App\Console\Commands\SendAlarmaResumenFacturacion',
     ];
 
     /**
@@ -25,6 +27,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('alarma:iva')->everyMinute();
+        $schedule->command('alarma:neto')->everyMinute();
+        $schedule->command('alarma:facturacion')->everyMinute();
     }
 
     /**

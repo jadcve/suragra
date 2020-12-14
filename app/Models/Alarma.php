@@ -20,7 +20,8 @@ class Alarma extends Model
         return $this->hasOne(Periodicidad::class, 'periodicidad_id', 'periodicidad_id');
     }
 
-    public function clientes() {
-        return $this->belongsToMany('App\User');
+    public function AlarmaUser()
+    {
+        return $this->hasMany(AlarmaUser::class);
     }
 }
