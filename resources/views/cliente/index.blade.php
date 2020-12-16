@@ -1,0 +1,166 @@
+@extends('adminlte::page')
+@section('title','clientes index')
+@section('content')
+@include('flash::message')
+
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="card card-default">
+                <div class="card-header">
+                    <h3 class="card-title">Nuevo Cliente</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            {!! Form::open(['route'=> 'cliente.store', 'method'=>'POST']) !!}
+                            <div class="form-group" >
+                                <label for="user_rut" >Rut <strong>*</strong></label>
+                                {!! Form::text('user_rut', null, ['placeholder'=>'Rut del cliente', 'class'=>'form-control col-sm-9 rut', 'required']) !!}
+                            </div>
+
+                            <div class="form-group mt-3">
+                                <label for="user_nombre" >Nombre <strong>*</strong></label>
+                                {!! Form::text('user_nombre', null, ['placeholder'=>'Nombre del cliente', 'class'=>'form-control col-sm-9', 'required']) !!}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="user_nombre" >Apellido  <strong>*</strong></label>
+                                {!! Form::text('user_apellido', null, ['placeholder'=>'Apellido del cliente', 'class'=>'form-control col-sm-9', 'required']) !!}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="user_telefono" >Teléfono <strong>*</strong></label>
+                                {!! Form::text('user_telefono', null, ['placeholder'=>'Telefono', 'class'=>'form-control col-sm-9', 'required']) !!}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="user_cargo" >Cargo <strong>*</strong></label>
+                                {!! Form::text('user_cargo', null, ['placeholder'=>'Cargo', 'class'=>'form-control col-sm-9', 'required']) !!}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="user_email" >Email <strong>*</strong></label>
+                                {!! Form::text('user_email', old('email'), ['class'=>'form-control col-sm-9', 'placeholder'=>'Email', 'required']) !!}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="empresa_id" >Empresa <strong>*</strong></label>
+                                {!! Form::select('empresa_id', $empresas, null,['placeholder'=>'Seleccionar Empresa', 'class'=>'form-control col-sm-9', 'required'=>'required']) !!}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-right pb-5">
+                        {!! Form::submit('Registrar cliente', ['class' => 'btn btn-primary block full-width m-b']) !!}
+                        {!! Form::close() !!}
+                    </div>
+
+                    <div class="text-center texto-leyenda">
+                        <p><strong>*</strong> Campos obligatorios</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="card card-default">
+                <div class="card-header">
+                    <h3 class="card-title">Listado de Clientes</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+                    </div>
+                </div>
+                <div class="card-body">
+                <!--   <div class="col-lg-12 pb-3 pt-2">
+                            <a href="{{ route('cliente.create') }}" class = 'btn btn-primary'>Crear nuevo cliente</a>
+                        </div>
+                -->
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="dataTableAusentismo" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Nombre y Apellido</th>
+                                <th>E-mail</th>
+                                <th>Teléfono</th>
+                                <th>Empresa</th>
+                                <th>Acci&oacute;n</th>
+                                <!-- <th>Desactivar</th>  -->
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($clientes_index as $us)
+                                <tr>
+                                    <td><small>{{ $us->user_nombre . ' ' . $us->user_apellido }}</small></td>
+                                    <td><small>{{ $us->email }}</small></td>
+                                    <td><small>{{ $us->user_telefono }}</small></td>
+                                    <td><small>{{ $us->belongsToEmpresa->empresa_nombre }}</small></td>
+                                    <td>
+                                        <small>
+                                            <a href="{{ route('cliente.edit',  Crypt::encrypt($us->user_id)) }}" class="btn-empresa"><i class="far fa-edit"></i></a>
+                                        </small>
+                                        <small>
+                                            <a href = "{{ route('cliente.destroy', Crypt::encrypt($us->user_id))  }}" onclick="return confirm('¿Esta seguro que desea eliminar este elemento?')" class="btn-empresa"><i class="far fa-trash-alt"></i>
+                                            </a>
+                                        </small>
+                                    </td>
+                                </tr>
+
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('local-scripts')
+    <script>
+        $(function(){
+
+            $('.rut').keyup(function(){
+
+                $("#validador").html('<span style="color:red;" aria-hidden="true">&times;</span>');
+
+
+                var Ts = $(this).val().split("-");
+                var T = Ts[0];
+
+
+                var M=0,S=1;
+                for(;T;T=Math.floor(T/10))
+                    S=(S+T%10*(9-M++%6))%11;
+                //return S?S-1:'k';
+
+                if(Ts[0].length==7 || Ts[0].length==8){
+
+                   if(Ts.length ==2){
+                       if(S-1==Ts[1]){
+                           $("#validador").html('<i style="color:green"  class="fa fa-check"></i>');
+                       }
+                   }
+
+                }
+
+
+
+
+
+
+            });
+
+        });
+
+        </script>
+@endsection
