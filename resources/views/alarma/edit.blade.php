@@ -72,23 +72,37 @@
         </div>
     </div>
 
-
-
 @endsection
 
 @section('js')
-
-<script src="{{ asset('/vendor/ckeditor/ckeditor.js') }}"></script>
+<!--<script src="{{ asset('/vendor/ckeditor/ckeditor.js') }}"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-
-<script src="{{ asset('/js/alarmas/Alarmas.js') }}">
-    Alarmas.alarmaSuragra()
-
-</script>
 
 <script type="text/javascript">
     $(document).ready(function() {
+
         $('.js-example-basic-multiple').select2();
+
+        function eliminarDuplicado(){
+            let cliente = document.getElementsByClassName("clientes");
+
+            [].slice.call(cliente.options)
+                .map(function(a){
+                        if(this[a.innerText]){
+                            if(!a.selected) cliente.removeChild(a);
+                        } else {
+                            this[a.innerText]=1;
+                        }
+                    },
+                    {});
+
+
+
+
+        }
+
+        eliminarDuplicado()
+
     });
 </script>
 

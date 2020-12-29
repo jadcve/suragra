@@ -3,6 +3,8 @@
         Options -MultiViews -Indexes
     </IfModule>
 
+    # Quitar la palabra public
+    #RewriteRule ^(.*)$ public/$1 [L]
     RewriteEngine On
 
     # Handle Authorization Header

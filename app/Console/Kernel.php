@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\SendAlarmaIva',
         'App\Console\Commands\SendAlarmaResumenNeto',
         'App\Console\Commands\SendAlarmaResumenFacturacion',
+        'App\Console\Commands\MonitoreoAlarmas',
     ];
 
     /**
@@ -29,6 +30,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('alarma:iva')->everyMinute();
         $schedule->command('alarma:neto')->everyMinute();
         $schedule->command('alarma:facturacion')->everyMinute();
+        $schedule->command('monitoreo:alarma')->dailyAt('8:00');
     }
 
     /**

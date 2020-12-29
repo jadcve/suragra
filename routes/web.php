@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 
 
 Auth::routes(['register' => false]);
@@ -45,7 +44,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('alarma/{id}/delete','AlarmaController@destroy')->name('alarma.destroy');
     Route::get('notificacion', 'AlarmaController@sendmail')->name('notificacion');
 
-    Route::get('test', 'AlarmaController@pruebaJoin');
+    Route::get('test', 'AlarmaController@testConexion');
 
 
 
